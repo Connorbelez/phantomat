@@ -262,3 +262,7 @@ kept in this repository. Neither project endorses this one.
 ## License
 
 BSD 3-Clause; see [LICENSE](LICENSE).
+
+## Maintenance backlog
+
+The [GitHub Project](https://github.com/users/Connorbelez/projects/19) tracks the roadmap issues and release qualification. See [maintenance](MAINTAINERS.md) for ownership and review expectations.
