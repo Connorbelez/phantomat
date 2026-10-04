@@ -23,11 +23,21 @@ CXXFLAGS_ALL = -fPIC $(EXTRA_FLAGS) -I.build -g -std=c++2b -Wno-narrowing `pkg-c
 # x86_64 function trampolines. Pass both paths for a local ARM64 build.
 DOBBY_INCLUDE ?=
 DOBBY_LIBRARY ?=
-ifneq ($(DOBBY_INCLUDE),)
+ifneq ($(findstring aarch64,$(shell $(CXX) -dumpmachine)),)
+  ifneq ($(filter-out clean test-tools safe-unload,$(or $(MAKECMDGOALS),all)),)
+    ifeq ($(wildcard $(DOBBY_INCLUDE)/dobby.h),)
+        $(error ARM64 builds require DOBBY_INCLUDE pointing to dobby.h. See docs/arm64.md)
+    endif
+    ifeq ($(filter %.a,$(DOBBY_LIBRARY)),)
+        $(error ARM64 builds require DOBBY_LIBRARY pointing to a PIC libdobby.a archive. See docs/arm64.md)
+    endif
+    ifeq ($(wildcard $(DOBBY_LIBRARY)),)
+        $(error DOBBY_LIBRARY does not exist. See docs/arm64.md)
+    endif
     CXXFLAGS_ALL += -I$(DOBBY_INCLUDE)
+    HOOK_LIBS = -Wl,--exclude-libs,ALL $(DOBBY_LIBRARY)
+  endif
 endif
-HOOK_LIBS = $(if $(DOBBY_LIBRARY),-Wl$(comma)--exclude-libs$(comma)ALL $(DOBBY_LIBRARY),)
-comma := ,
 
 ifeq ($(CXX),g++)
     EXTRA_FLAGS += -fno-gnu-unique

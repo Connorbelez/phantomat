@@ -23,11 +23,37 @@ make -j2 OUT=.build/dev/spatialoverview.so
 make test-tools
 ```
 
-Exporting the two variables also makes them available to the installer. Alternatively, place their assignments in the ignored `.build/dobby-config.mk` file. Only the Make build frontend is integrated in this experiment; supply equivalent include/library dependencies when using another frontend.
+Exporting the two variables also makes them available to the installer. Alternatively, place their assignments in the ignored `.build/dobby-config.mk` file.
+
+CMake uses the same paths as cache options:
+
+```sh
+cmake -S . -B .build/cmake -DCMAKE_BUILD_TYPE=Release \
+  -DDOBBY_INCLUDE="$DOBBY_INCLUDE" -DDOBBY_LIBRARY="$DOBBY_LIBRARY"
+cmake --build .build/cmake -j2
+```
+
+Meson accepts equivalent project options:
+
+```sh
+meson setup .build/meson \
+  -Ddobby_include="$DOBBY_INCLUDE" -Ddobby_library="$DOBBY_LIBRARY"
+meson compile -C .build/meson -j2
+```
+
+CMake and Meson produce `libspatialoverview.so` in their build directories. All three frontends detect the compiler's target architecture, require a header and static archive for ARM64 plugin builds, and hide the embedded Dobby symbols. Test tools and the Make safe-unload helper can be built without Dobby. Other architectures use the existing Hyprland backend without a Dobby dependency.
 
 The static archive is embedded in the plugin and its symbols are hidden from the compositor's global dynamic-symbol namespace. No replacement Hyprland build is required.
 
 ## Verification
+
+Run the repeatable build check with CMake, Meson, Ninja, GNU binutils, and the normal plugin build dependencies installed:
+
+```sh
+python3 tests/build-frontends.py "$DOBBY_INCLUDE" "$DOBBY_LIBRARY"
+```
+
+It checks missing/invalid dependency errors, directly exercises hook installation and destruction, builds all three frontends, and checks that the plugins embed the hook functions without exporting Dobby or GNU unique symbols. GNU unique symbols can prevent normal plugin unload.
 
 Before replacing a live binary, use the repository's disposable nested sessions:
 

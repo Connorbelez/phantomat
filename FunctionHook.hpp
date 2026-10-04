@@ -1,7 +1,5 @@
 #pragma once
 
-#include <hyprland/src/plugins/PluginAPI.hpp>
-
 #if defined(__aarch64__)
 #include <dobby.h>
 #include <memory>
@@ -51,7 +49,7 @@ class COverviewFunctionHook {
 
 inline std::vector<std::unique_ptr<COverviewFunctionHook>> g_overviewFunctionHooks;
 
-inline COverviewFunctionHook* createOverviewFunctionHook(HANDLE, void* source, void* destination) {
+inline COverviewFunctionHook* createOverviewFunctionHook(void*, void* source, void* destination) {
     auto hook = std::make_unique<COverviewFunctionHook>(source, destination);
     auto* result = hook.get();
     g_overviewFunctionHooks.emplace_back(std::move(hook));
@@ -62,6 +60,8 @@ inline void releaseOverviewFunctionHooks() {
     g_overviewFunctionHooks.clear();
 }
 #else
+#include <hyprland/src/plugins/PluginAPI.hpp>
+
 using COverviewFunctionHook = CFunctionHook;
 
 inline COverviewFunctionHook* createOverviewFunctionHook(HANDLE owner, void* source, void* destination) {
