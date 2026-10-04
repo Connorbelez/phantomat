@@ -68,7 +68,7 @@ rename keep working.
 
 ### ARM64 / Apple Silicon
 
-This fork adds a plugin-local Dobby backend for ARM64, where Hyprland 0.56's
+A plugin-local Dobby backend supports for ARM64, where Hyprland 0.56's
 native function hooks are disabled. Build instructions and the tested M1
 configuration are in [docs/arm64.md](docs/arm64.md).
 
