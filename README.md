@@ -1,3 +1,15 @@
+# phantomat Linux ARM64 contribution fork
+
+[![CI](https://github.com/Connorbelez/phantomat/actions/workflows/ci.yml/badge.svg)](https://github.com/Connorbelez/phantomat/actions/workflows/ci.yml)
+
+This is Connor Beleznay's unofficial compatibility fork of [kaolti/phantomat](https://github.com/kaolti/phantomat). The preferred outcome is focused upstream contributions, followed by retirement of the compatibility delta. No independent stable distribution is promised.
+
+The historical compatibility branch remains available. `main` includes maintenance setup and the four newer upstream Phantomat commits. Original M1 test evidence applies to the documented compatibility revision; changes on `main` need fresh qualification. See [ARM64 notes](docs/arm64.md), [roadmap](ROADMAP.md), and [attribution](ATTRIBUTION.md).
+
+CI verifies Python harness syntax and source/documentation integrity. Full plugin builds and nested compositor tests require matching Hyprland headers and a qualified Wayland session. GitHub's ARM64 runner uses its own page size and does not reproduce the M1's 16 KiB-page result.
+
+---
+
 # Phantomat
 
 A zoomable, infinite-canvas window manager for Hyprland. Every window lives

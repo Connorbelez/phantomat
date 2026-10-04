@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Revalidate merged main in nested Hyprland 0.56.2",
+    "body": "Acceptance: provide reproducible verification and record exact source/dependency revisions. See ROADMAP.md for scope."
+  },
+  {
+    "title": "Integrate ARM64 dependency in CMake and Meson",
+    "body": "Acceptance: provide reproducible verification and record exact source/dependency revisions. See ROADMAP.md for scope."
+  },
+  {
+    "title": "Submit focused ARM64 hook and harness changes upstream",
+    "body": "Acceptance: provide reproducible verification and record exact source/dependency revisions. See ROADMAP.md for scope."
+  },
+  {
+    "title": "Qualify 4 KiB pages and a second ARM64 machine",
+    "body": "Acceptance: provide reproducible verification and record exact source/dependency revisions. See ROADMAP.md for scope."
+  }
+]
